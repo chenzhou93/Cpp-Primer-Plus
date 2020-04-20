@@ -1,5 +1,5 @@
 #include <cmath>
-#include "Exercise_02_vector.h"   // includes <iostream>
+#include "Exercise_03_vector.h"   // includes <iostream>
 using std::sqrt;
 using std::sin;
 using std::cos;
@@ -15,31 +15,27 @@ namespace VECTOR
 
     // private methods
     // calculates magnitude from x and y
-    double Vector::calculate_mag() const
+    void Vector::set_mag()
     {
-        return sqrt(x * x + y * y);
+        mag = sqrt(x * x + y * y);
     }
 
-    double Vector::calculate_ang() const
+    void Vector::set_ang()
     {
-        double ang = 0.0;
-        if (x == 0.0 && y == 0.0){
+        if (x == 0.0 && y == 0.0)
             ang = 0.0;
-        }
-        else{   
+        else
             ang = atan2(y, x);
-        }
-        return ang;  
     }
 
     // set x from polar coordinate
-    void Vector::set_x(double mag, double ang)
+    void Vector::set_x()
     {
         x = mag * cos(ang);
     }
 
     // set y from polar coordinate
-    void Vector::set_y(double mag, double ang)
+    void Vector::set_y()
     {
         y = mag * sin(ang);
     }
@@ -47,7 +43,7 @@ namespace VECTOR
     // public methods
     Vector::Vector()             // default constructor
     {
-        x = y = 0.0;
+        x = y = mag = ang = 0.0;
         mode = RECT;
     }
 
@@ -60,21 +56,21 @@ namespace VECTOR
          {
              x = n1;
              y = n2;
-             calculate_mag();
-             calculate_ang();
+             set_mag();
+             set_ang();
         }
         else if (form == POL)
         {
-             double mag = n1;
-             double ang = n2 / Rad_to_deg;
-             set_x(mag, ang);
-             set_y(mag, ang);
+             mag = n1;
+             ang = n2 / Rad_to_deg;
+             set_x();
+             set_y();
         }
         else
         {
              cout << "Incorrect 3rd argument to Vector() -- ";
              cout << "vector set to 0\n";
-             x = y = 0.0;
+             x = y = mag = ang = 0.0;
              mode = RECT;
         }
     }
@@ -89,21 +85,21 @@ namespace VECTOR
          {
              x = n1;
              y = n2;
-             calculate_mag();
-             calculate_ang();
+             set_mag();
+             set_ang();
         }
         else if (form == POL)
         {
-             double mag = n1;
-             double ang = n2 / Rad_to_deg;
-             set_x(mag, ang);
-             set_y(mag, ang);
+             mag = n1;
+             ang = n2 / Rad_to_deg;
+             set_x();
+             set_y();
         }
         else
         {
              cout << "Incorrect 3rd argument to Vector() -- ";
              cout << "vector set to 0\n";
-             x = y = 0.0;
+             x = y = mag = ang = 0.0;
              mode = RECT;
         }
     }
@@ -158,14 +154,12 @@ namespace VECTOR
     // else display polar coordinates if mode is POL
     std::ostream & operator<<(std::ostream & os, const Vector & v)
     {
-        double mag = v.magval();
-        double ang = v.angval();
         if (v.mode == Vector::RECT)
              os << "(x,y) = (" << v.x << ", " << v.y << ")";
         else if (v.mode == Vector::POL)
         {
-             os << "(m,a) = (" << mag << ", "
-                 << ang * Rad_to_deg << ")";
+             os << "(m,a) = (" << v.mag << ", "
+                 << v.ang * Rad_to_deg << ")";
         }
         else
              os << "Vector object mode is invalid";
