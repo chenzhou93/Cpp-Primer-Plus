@@ -23,8 +23,9 @@ public:
     void update(double price);
     //void show()const;
     const Stock & topval(const Stock & s) const;
-    Stock& operator=(const Stock & s);
+    //Stock& operator=(const Stock & s);
     friend ostream& operator<<(ostream& o, Stock& s);
+    friend ostream& operator<<(ostream& o, const Stock* s);
 };
 
 #endif

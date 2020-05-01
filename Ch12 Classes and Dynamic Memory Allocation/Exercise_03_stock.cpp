@@ -135,21 +135,40 @@ ostream& operator<<(ostream& o, Stock& s){
     return o;
 }
 
-Stock & Stock::operator=(const Stock & s)
-{
-    using std::strlen;
-    using std::strcpy;
+ostream& operator<<(ostream& o, const Stock* s){
+    // set format to #.###
+    ios_base::fmtflags orig =
+        o.setf(ios_base::fixed, ios_base::floatfield);
+    std::streamsize prec = o.precision(3);
 
-    if (this == &s)
-        return *this;
+    o << "Company: " << s->company
+        << "  Shares: " << s->shares << '\n';
+    o << "  Share Price: $" << s->share_val;
+    // set format to #.##
+    o.precision(2);
+    o << "  Total Worth: $" << s->total_val << '\n';
 
-    int len = strlen(s.company);
-    delete [] company;
-    company = new char[len + 1];
-    strcpy(company, s.company);
-    shares = s.shares;
-    share_val = s.share_val;
-    total_val = s.total_val;    
-    return *this;
+    // restore original format
+    o.setf(orig, ios_base::floatfield);
+    o.precision(prec);
+    return o;
 }
+
+// Stock & Stock::operator=(const Stock & s)
+// {
+//     using std::strlen;
+//     using std::strcpy;
+
+//     if (this == &s)
+//         return *this;
+
+//     int len = strlen(s.company);
+//     delete [] company;
+//     company = new char[len + 1];
+//     strcpy(company, s.company);
+//     shares = s.shares;
+//     share_val = s.share_val;
+//     total_val = s.total_val;    
+//     return *this;
+// }
 

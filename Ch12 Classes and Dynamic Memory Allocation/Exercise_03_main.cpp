@@ -28,9 +28,13 @@ int main(){
     }
         
 // set pointer to first element
-    Stock top = stocks[0];
+    // Stock top = stocks[0];
+    // for (st = 1; st < STKS; st++){
+    //     top = top.topval(stocks[st]);
+    // }
+    const Stock* top = &stocks[0];
     for (st = 1; st < STKS; st++){
-        top = top.topval(stocks[st]);
+        top = &top->topval(stocks[st]);
     }
 
 // now top points to the most valuable holding
